@@ -1,17 +1,12 @@
 const User = require('../db/user');
 
 module.exports = {
-    find () {
-        return User.findAll().then(v => {
-            return {
-                code: 0,
-                data: JSON.stringify(v)
-            };
-        }).catch(e => { 
-            return {
-                code: 1,
-                msg: e
-            }
-        });
-    }
+    find (opts) {
+        return User.findAll({
+            where: opts
+        }).then(v => v);
+    },
+    insert (opts) {
+        return User.create(opts).then(v => v);
+    },
 }

@@ -7,15 +7,15 @@ const koa = require('koa');
 const path = require('path');
 
 const config = require('./config.js');
-const handleError = require('./tools/handleError');
+const tools = require('./tools');
 const router = require('./routes');
-const dbTables = require('./db/index');
+const dbTables = require('./db/init');
 
 const app = new koa();
 
 // Log
 app.use(logger());
-app.use(handleError());
+app.use(tools.handleError());
 app.use(koaBody({
     multipart: true,
     onError: function (err, ctx) {
