@@ -1,7 +1,6 @@
 var access_token = window.localStorage.getItem('access_token') || '';
 
 function get(url) {
-    // url = url + '?access_token=' + access_token;
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -24,10 +23,7 @@ function post(url, data) {
             "Authorization": "Bearer " + access_token,
         },
     }).then(res => {
-        if(res.status != 200)
-            return res.status;
-        else
-            return res.json();
+        return res.json();
     }, err => {
         console.log(err);
     })
@@ -43,10 +39,7 @@ function postFile(url, data) {
             "Authorization": "Bearer " + access_token,
         },
     }).then(res => {
-        if(res.status != 200)
-            return res.status;
-        else
-            return res.json();
+        return res.json();
     }, err => {
         console.log(err);
     })

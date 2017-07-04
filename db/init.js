@@ -1,5 +1,5 @@
 const sequelize = require('./connection');
-const encryption = require('../tools/encryption');
+const tools = require('../tools');
 const config = require('../config');
 
 const tables = {
@@ -19,7 +19,7 @@ sequelize.sync().then(() => {
         if (!v.length) {
             tables.admin.create({
                 username: 'felbry',
-                password: encryption(config.defaultPwd),
+                password: tools.encryption(config.defaultPwd),
                 power: 1,
             });
         }

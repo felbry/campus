@@ -3,6 +3,7 @@ import {teacherRouter} from './teacher';
 
 import Login from '../components/login';
 import Register from '../components/register';
+import Register1 from '../components/register1';
 import Index from '../components/index';
 // import Admin from '../components/admin';
 
@@ -150,7 +151,7 @@ const userRouter = [
     },
     {
         path: '/register',
-        component: Register
+        component: Register1
     },
 ];
 

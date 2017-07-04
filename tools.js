@@ -20,7 +20,7 @@ module.exports = {
             if (err.status) {
                 ctx.status = err.status;
                 ctx.body = {
-                    code: 1,
+                    status: err.status,
                     msg: err.message
                 };
             } else {

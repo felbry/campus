@@ -63,18 +63,16 @@ export default {
                 this.errorInfoList.push('用户名或密码不能为空');
             } else {
                 this.errorInfoList = [];
-                var that = this;
-                Fetch.post(config.url + '/api/login', {
+                Fetch.post(config.url + '/api/v1/login', {
                     username: this.usernamePrefix + this.usernameSuffixs[this.usernameSuffix],
                     password: this.password,
                 }).then(res => {
-                    if(!res.token)
-                        that.errorInfoList.push('账号密码错误，请重新输入');
-                    else {
-                        // 后期询问是否保存本地
-                        window.localStorage.setItem('access_token', res.token);
-                        Fetch.updateToken(res.token);
+                    if(res.code == 0) {
+                        window.localStorage.setItem('access_token', res.data.token);
+                        Fetch.updateToken(res.data.token);
                         this.$router.replace('/');
+                    } else {
+                        this.errorInfoList.push(res.msg);
                     }
                 });
             }

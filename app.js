@@ -31,6 +31,10 @@ app.use(router.publicApi.routes());
 // user validate
 app.use(jwt({
     secret: config.userKey,
+    // sudo isRevoked
+    isRevoked: function (ctx, decodedToken, token) {
+        return Promise.resolve(false);
+    }
 }).unless({
     path: [/^\/api\/admin/]
 }));
