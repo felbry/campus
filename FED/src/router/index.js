@@ -4,6 +4,8 @@ import {teacherRouter} from './teacher';
 import Login from '../components/login';
 import Register from '../components/register';
 import Register1 from '../components/register1';
+import Register2 from '../components/register2';
+import Register3 from '../components/register3';
 import Index from '../components/index';
 // import Admin from '../components/admin';
 
@@ -152,6 +154,14 @@ const userRouter = [
     {
         path: '/register',
         component: Register1
+    },
+    {
+        path: '/verify-email',
+        component: Register2
+    },
+    {
+        path: '/patch-info',
+        component: Register3
     },
 ];
 

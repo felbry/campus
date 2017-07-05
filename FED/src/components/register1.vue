@@ -36,7 +36,7 @@
 						<div class="field">
 							<label>密码</label>
 							<div class="ui input">
-								<input v-model="pwd" type="password" placeholder="password">
+								<input v-model="pwd" type="password" placeholder="password">  
 							</div>
 						</div>
 						<div class="field">
@@ -59,8 +59,7 @@
 </template>
 
 <script>
-import config from '../config';
-import Fetch from '../assets/tools/fetchWithToken';
+import { login } from '../api';
 
 export default {
 	data () {
@@ -73,7 +72,13 @@ export default {
 	},
 	methods: {
 		submit () {
-
+			// this.$router.push('/verify-email');
+			login({
+				username: this.email,
+				password: this.pwd
+			}).then(v => {
+				
+			});
 		},
 	},
 }

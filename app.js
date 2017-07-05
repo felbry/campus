@@ -13,6 +13,7 @@ const dbTables = require('./db/init');
 
 const app = new koa();
 
+app.use(cors());
 // Log
 app.use(logger());
 app.use(tools.handleError());
@@ -22,7 +23,7 @@ app.use(koaBody({
         ctx.throw(400, 'Bad Request', err);
     },
 }));
-app.use(cors());
+
 // Serve static files
 app.use(staticFile(path.join(__dirname, 'public')));
 app.use(router.publicApi.routes());

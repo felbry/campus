@@ -28,13 +28,24 @@
 				<div class="ui large form">
 					<div class="ui stacked segment">
 						<div class="field">
-							<label>ddd</label>
-							<div class="ui input">
-								<input type="password" placeholder="Password">
+							<h4 class="ui teal header">
+								当前邮箱：<br/>
+								505792925@qq.com
+							</h4>
+							<p>首次注册请耐心等候验证邮件，无需重复发送邮件</p>
+						</div>
+						<div class="field">
+							<label>验证码</label>
+							<div class="ui action input">
+								<input type="text" placeholder="请勿重复获取验证码">
+								<div @click="sendCode" class="ui teal right labeled icon button">
+									<i class="send outline icon"></i>
+									获取验证码
+								</div>
 							</div>
 						</div>
 					</div>
-					<div @click="submit" class="ui fluid large teal button">Login</div>
+					<div @click="submit" class="ui fluid large teal button">提交</div>
 					<div :class="{'show-error': errorInfoList.length}" class="ui error message">
 						<ul class="list">
 							<li v-for="i in errorInfoList">{{i}}</li>
@@ -58,7 +69,15 @@ export default {
 	},
 	methods: {
 		submit () {
-
+			this.$router.push('/patch-info');
+		},
+		sendCode () {
+			var con = confirm('确定发送吗？首次注册请耐心等候邮件，请勿重复发送。');
+			if (con) {
+				
+			} else {
+				return;
+			}
 		},
 	},
 }
