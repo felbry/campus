@@ -62,6 +62,13 @@ import config from '../config';
 import Fetch from '../assets/tools/fetchWithToken';
 
 export default {
+	beforeRouteEnter (to, from, next) {
+		if (to.body.email) {
+			next();
+		} else {
+			alert('非法操作，请返回');
+		}
+	},
 	data () {
 		return {
 			errorInfoList: [],

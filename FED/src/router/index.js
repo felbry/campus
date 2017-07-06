@@ -156,6 +156,7 @@ const userRouter = [
         component: Register1
     },
     {
+        name: 'verifyEmail',
         path: '/verify-email',
         component: Register2
     },

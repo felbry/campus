@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { login } from '../api';
+import { register } from '../api';
 
 export default {
 	data () {
@@ -72,13 +72,35 @@ export default {
 	},
 	methods: {
 		submit () {
-			// this.$router.push('/verify-email');
-			login({
-				username: this.email,
-				password: this.pwd
-			}).then(v => {
-				
-			});
+			this.errorInfoList = [];
+			if (this.pwd == this.rePwd) {
+				let reg = /^[a-z_0-9.-]{1,64}@([a-z0-9-]{1,200}.){1,5}[a-z]{1,6}$/i;
+				if (reg.test(this.email)) {
+					if (this.pwd) {
+						register({
+							username: this.email,
+							password: this.pwd
+						}).then(v => {
+							if (!v.code) {
+								this.$router.push({
+									name: 'verifyEmail',
+									body: {
+										email: v.data.username
+									}
+								});
+							} else {
+								this.errorInfoList.push(v.msg);
+							}
+						});
+					} else {
+						this.errorInfoList.push('请填写完整信息');
+					}
+				} else {
+					this.errorInfoList.push('邮箱格式不正确，请重新输入');
+				}
+			} else {
+				this.errorInfoList.push('两次输入的密码不一致，请重新输入');
+			}
 		},
 	},
 }
