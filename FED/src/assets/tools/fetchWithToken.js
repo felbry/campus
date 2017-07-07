@@ -14,9 +14,23 @@ function get(url) {
 }
 
 function post(url, data) {
-    // data['access_token'] = access_token;
     return fetch(url, {
         method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + access_token,
+        },
+    }).then(res => {
+        return res.json();
+    }, err => {
+        console.log(err);
+    })
+}
+
+function patch(url, data) {
+    return fetch(url, {
+        method: 'PATCH',
         body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",

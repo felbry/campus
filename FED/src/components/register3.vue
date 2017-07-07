@@ -33,7 +33,7 @@
 						<div class="field">
 							<label>你的名字</label>
 							<div class="ui input">
-								<input type="password" placeholder="可以是昵称，但真实姓名更容易与同伴交流哦~">
+								<input v-model="realName" type="text" placeholder="可以是昵称，但真实姓名更容易与同伴交流哦~">
 							</div>
 						</div>
 						<div class="two fields">
@@ -96,17 +96,19 @@
 </template>
 
 <script>
-import config from '../config';
-import Fetch from '../assets/tools/fetchWithToken';
+import { getCampus, getAcademy, getProfession, getClass, updateClassInfo } from '../api';
 
 export default {
 	beforeRouteEnter(to, from, next) {
-        // Fetch.get(config.url + '/api/campusInfo').then(res => {
-        //     next(vm => {
-        //         vm.campuses = res.campuses;
-        //     });
-        // });
-		next();
+		if (to.body.email) {
+			getCampus().then(v => {
+				next(vm => {
+					vm.campuses = v.data;
+				});
+			});
+		} else {
+			alert('非法操作，请返回');
+		}
     },
 	data () {
 		return {
@@ -128,7 +130,9 @@ export default {
         $('.campus').dropdown({
             onChange: function(idx) {
                 that.campusIdx = idx;
-                Fetch.get(config.url + '/api/academyInfo/' + that.campuses[idx]._id).then(res => {
+                getAcademy({
+					campusId: that.campuses[idx].id
+				}).then(res => {
                     $('.academy .text').addClass('default').text('选择学院');
                     $('.profession .text').addClass('default').text('选择专业');
                     $('.grade .text').addClass('default').text('年级');
@@ -141,7 +145,7 @@ export default {
                     that.gradeIdx = null;
                     that.classIdx = null;
 
-                    that.academies = res.academies;
+                    that.academies = res.data;
                 }, err => {
                     console.error(err);
                 });
@@ -150,7 +154,9 @@ export default {
         $('.academy').dropdown({
             onChange: function(idx) {
                 that.academyIdx = idx;
-                Fetch.get(config.url + '/api/professionInfo/' + that.academies[idx]._id).then(res => {
+                getProfession({
+					academyId: that.academies[idx].id
+				}).then(res => {
                     $('.profession .text').addClass('default').text('选择专业');
                     $('.grade .text').addClass('default').text('年级');
                     $('.class .text').addClass('default').text('班级');
@@ -160,7 +166,7 @@ export default {
                     that.gradeIdx = null;
                     that.classIdx = null;
 
-                    that.professions = res.professions;
+                    that.professions = res.data;
                 }, err => {
                     console.error(err);
                 });
@@ -180,10 +186,13 @@ export default {
         $('.grade').dropdown({
             onChange: function(idx) {
                 that.gradeIdx = idx;
-                Fetch.get(config.url + '/api/classInfo/' + that.professions[that.professionIdx]._id + '/' + that.grades[idx]).then(res => {
+                getClass({
+					professionId: that.professions[that.professionIdx].id,
+					grade: that.grades[idx]
+				}).then(res => {
                     $('.class .text').addClass('default').text('班级');
                     that.classIdx = null;
-                    that.classes = res.classes;
+                    that.classes = res.data;
                 }, err => {
                     console.error(err);
                 });
@@ -197,9 +206,29 @@ export default {
     },
 	methods: {
 		submit () {
-
+			if (this.campusIdx && this.academyIdx && this.professionIdx && this.gradeIdx && this.classIdx) {
+				updateClassInfo({
+					campusId: this.campuses[this.campusIdx].id,
+                    academyId: this.academies[this.academyIdx].id,
+                    professionId: this.professions[this.professionIdx].id,
+                    classId: this.classes[this.classIdx - 1].id,
+					username: this.$route.body.email
+				}).then(v => {
+					// 更新成功
+				});
+			} else {
+				this.errorInfoList.push('请填写完整信息');
+			}
 		},
 	},
+	filters: {
+        getName(v) {
+            if(v.name)
+                return v.name;
+            else
+                return v.cid;
+        }
+    },
 }
 </script>
 

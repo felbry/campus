@@ -30,17 +30,17 @@
 						<div class="field">
 							<h4 class="ui teal header">
 								当前邮箱：<br/>
-								505792925@qq.com
+								{{this.$route.body.email}}
 							</h4>
 							<p>首次注册请耐心等候验证邮件，无需重复发送邮件</p>
 						</div>
 						<div class="field">
 							<label>验证码</label>
 							<div class="ui action input">
-								<input type="text" placeholder="请勿重复获取验证码">
-								<div @click="sendCode" class="ui teal right labeled icon button">
+								<input v-model="code" type="text" placeholder="请勿重复获取验证码">
+								<div @click="upsertCode" class="ui teal right labeled icon button">
 									<i class="send outline icon"></i>
-									获取验证码
+									{{interval ? interval + '秒后重试' : '获取验证码'}}
 								</div>
 							</div>
 						</div>
@@ -58,8 +58,7 @@
 </template>
 
 <script>
-import config from '../config';
-import Fetch from '../assets/tools/fetchWithToken';
+import { upsertCode, verifyEmail } from '../api';
 
 export default {
 	beforeRouteEnter (to, from, next) {
@@ -71,17 +70,54 @@ export default {
 	},
 	data () {
 		return {
+			code: '',
+			interval: 0,
 			errorInfoList: [],
 		};
 	},
 	methods: {
 		submit () {
-			this.$router.push('/patch-info');
+			verifyEmail({
+				email: this.$route.body.email,
+				code: this.code
+			}).then(v => {
+				if (!v.code) {
+					this.$router.push({
+						name: 'patchInfo',
+						body: {
+							email: this.$route.body.email
+						}
+					});
+				} else {
+					this.errorInfoList.push(v.msg);
+				}
+			});
 		},
-		sendCode () {
-			var con = confirm('确定发送吗？首次注册请耐心等候邮件，请勿重复发送。');
+		upsertCode () {
+			if (this.interval) {
+				return;
+			}
+			let con = confirm('确定发送吗？首次注册请耐心等候邮件，请勿重复发送。');
 			if (con) {
-				
+				upsertCode({
+					username: this.$route.body.email,
+					type: 1
+				}).then(v => {
+					if (!v.code) {
+						// 进入倒计时
+						let that = this;
+						that.interval = 60;
+						let myInterval = setInterval(function () {
+							if (!that.interval) {
+								clearInterval(myInterval);
+							} else {
+								that.interval--;
+							}
+						});
+					} else {
+						this.errorInfoList.push(v.msg);
+					}
+				});
 			} else {
 				return;
 			}

@@ -54,7 +54,6 @@ export default {
             errorInfoList: [],
         }
     },
-    
     methods: {
         submit() {
             this.errorInfoList = [];

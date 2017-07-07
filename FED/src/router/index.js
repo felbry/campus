@@ -161,6 +161,7 @@ const userRouter = [
         component: Register2
     },
     {
+        name: 'patchInfo',
         path: '/patch-info',
         component: Register3
     },
