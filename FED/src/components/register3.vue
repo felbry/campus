@@ -100,7 +100,7 @@ import { getCampus, getAcademy, getProfession, getClass, updateClassInfo } from 
 
 export default {
 	beforeRouteEnter(to, from, next) {
-		if (to.body.email) {
+		if (to.params.email) {
 			getCampus().then(v => {
 				next(vm => {
 					vm.campuses = v.data;
@@ -108,6 +108,7 @@ export default {
 			});
 		} else {
 			alert('非法操作，请返回');
+			this.$router.replace('/login');
 		}
     },
 	data () {
@@ -123,6 +124,7 @@ export default {
             grades: [],
             classIdx: null,
             classes: [],
+			realName: '',
 		};
 	},
 	mounted() {
@@ -212,7 +214,7 @@ export default {
                     academyId: this.academies[this.academyIdx].id,
                     professionId: this.professions[this.professionIdx].id,
                     classId: this.classes[this.classIdx - 1].id,
-					username: this.$route.body.email
+					username: this.$route.params.email
 				}).then(v => {
 					// 更新成功
 				});

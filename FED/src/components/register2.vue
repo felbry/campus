@@ -30,7 +30,7 @@
 						<div class="field">
 							<h4 class="ui teal header">
 								当前邮箱：<br/>
-								{{this.$route.body.email}}
+								{{this.$route.params.email}}
 							</h4>
 							<p>首次注册请耐心等候验证邮件，无需重复发送邮件</p>
 						</div>
@@ -62,10 +62,11 @@ import { upsertCode, verifyEmail } from '../api';
 
 export default {
 	beforeRouteEnter (to, from, next) {
-		if (to.body.email) {
+		if (to.params.email) {
 			next();
 		} else {
 			alert('非法操作，请返回');
+			this.$router.replace('/login');
 		}
 	},
 	data () {
@@ -78,14 +79,14 @@ export default {
 	methods: {
 		submit () {
 			verifyEmail({
-				email: this.$route.body.email,
+				email: this.$route.params.email,
 				code: this.code
 			}).then(v => {
 				if (!v.code) {
 					this.$router.push({
 						name: 'patchInfo',
-						body: {
-							email: this.$route.body.email
+						params: {
+							email: this.$route.params.email
 						}
 					});
 				} else {
@@ -100,7 +101,7 @@ export default {
 			let con = confirm('确定发送吗？首次注册请耐心等候邮件，请勿重复发送。');
 			if (con) {
 				upsertCode({
-					username: this.$route.body.email,
+					username: this.$route.params.email,
 					type: 1
 				}).then(v => {
 					if (!v.code) {

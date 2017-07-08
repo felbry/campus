@@ -1,7 +1,13 @@
 const Academy = require('../db/academy');
 
 module.exports = {
-    insert (opts) {
+    async insert (opts) {
+        if (opts.user.power != 2) {
+            return {
+                code: 2,
+                msg: '无权限'
+            };
+        }
         let results = await Academy.findAll({
             where: {
                 name: opts.name
@@ -33,5 +39,18 @@ module.exports = {
                 msg: '学院已存在'
             };
         }
+    },
+    find () {
+        return Academy.findAll({
+            attributes: ['name'],
+            where: {
+                cid: opts.cid
+            }
+        }).then(v => {
+            return {
+                code: 0,
+                data: v
+            };
+        })
     },
 }

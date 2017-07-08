@@ -84,7 +84,7 @@ export default {
 							if (!v.code) {
 								this.$router.push({
 									name: 'verifyEmail',
-									body: {
+									params: {
 										email: v.data.username
 									}
 								});

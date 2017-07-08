@@ -64,5 +64,5 @@ function updateToken(v) {
 }
 
 export default {
-    get, post, updateToken, postFile
+    get, post, patch, updateToken, postFile
 }

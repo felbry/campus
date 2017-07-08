@@ -5,7 +5,13 @@ const config = require('../config');
 const tools = require('../tools');
 
 module.exports = {
-    insert (opts) {
+    async insert (opts) {
+        if (opts.user.power != 1) {
+            return {
+                code: 2,
+                msg: '无权限'
+            };
+        }
         let results = await Campus.findAll({
             where: {
                 name: opts.name
@@ -35,5 +41,15 @@ module.exports = {
                 msg: '学校已存在'
             };
         }
+    },
+    find () {
+        return Campus.findAll({
+            attributes: ['name']
+        }).then(v => {
+            return {
+                code: 0,
+                data: v
+            };
+        })
     },
 }
