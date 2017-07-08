@@ -62,16 +62,6 @@ import Fetch from '../../assets/tools/fetchWithToken';
 
 export default {
     name: 'index-academy',
-    beforeRouteEnter(to, from, next) {
-        Fetch.get(config.url + '/admin/3/authenticate').then(res => {
-            if (res.authenticate) {
-                next();
-            } else {
-                alert('没有权限，请登录');
-                next('/login-for-admin');
-            }
-        });
-    },
     data() {
         return {
             profession: null,

@@ -31,3 +31,4 @@ module.exports.privateApi = privateApi
     .post('/admin/v1/academies', classInfo.setAcademy)
     .post('/admin/v1/professions', classInfo.setProfession)
     .post('/admin/v1/classes', classInfo.setClass)
+    .get('/admin/v1/admins', admin.find)

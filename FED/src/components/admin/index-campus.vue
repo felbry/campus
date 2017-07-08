@@ -1,29 +1,18 @@
 <template>
     <div class="index-campus">
-        welcome, campus.
+        welcome, 高校管理员~
         添加学院：<input v-model="academy" type="text"><button @click="addAcademy" type="button">添加</button><br/>
         <ul>
-            <li v-for="item in adminList">{{item.relation.name}} - {{item.username}} - {{item.password}}</li>
+            <li v-for="item in adminList">{{item.relationName}} - {{item.username}} - {{item.password}}</li>
         </ul>
     </div>
 </template>
 
 <script>
-import config from '../../config';
-import Fetch from '../../assets/tools/fetchWithToken';
+import { setAcademy, getAdmin } from '../../api';
 
 export default {
     name: 'index-campus',
-    beforeRouteEnter(to, from, next) {
-        Fetch.get(config.url + '/admin/2/authenticate').then(res => {
-            if (res.authenticate) {
-                next();
-            } else {
-                alert('没有权限，请登录');
-                next('/login-for-admin');
-            }
-        });
-    },
     data() {
         return {
             academy: null,
@@ -35,15 +24,15 @@ export default {
     },
     methods: {
         getInfo() {
-            Fetch.get(config.url + '/admin/academyInfo').then(res => {
-                this.adminList = res.admins;
+            getAdmin().then(res => {
+                this.adminList = res.data;
             });
         },
         addAcademy() {
-            Fetch.post(config.url + '/admin/academyInfo', {
+            setAcademy({
                 name: this.academy,
             }).then(res => {
-                if (!res.msg) {
+                if (!res.code) {
                     this.getInfo();
                 } else {
                     alert(res.msg);

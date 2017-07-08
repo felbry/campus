@@ -79,12 +79,18 @@ module.exports = {
                 } else {
                     return {
                         code: 3,
+                        data: {
+                            email: user.username
+                        },
                         msg: '班级信息未完善'
                     }
                 }
             } else {
                 return {
                     code: 2,
+                    data: {
+                        email: user.username
+                    },
                     msg: '邮箱未验证'
                 };
             }

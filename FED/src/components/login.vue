@@ -23,7 +23,7 @@
                             <input v-model="password" type="password" name="password" placeholder="Password">
                         </div>
                     </div>
-                    <div @click="submit" class="ui fluid large teal button">Login</div>
+                    <div @click="submit" class="ui fluid large teal button">登录</div>
                 </div>
                 <div :class="{'show-error': errorInfoList.length}" class="ui error message">
                     <ul class="list">
@@ -42,8 +42,7 @@
 </template>
 
 <script>
-import config from '../config';
-import Fetch from '../assets/tools/fetchWithToken';
+import { login } from '../api';
 
 export default {
     name: 'login',
@@ -63,7 +62,7 @@ export default {
                 this.errorInfoList.push('用户名或密码不能为空');
             } else {
                 this.errorInfoList = [];
-                Fetch.post(config.url + '/api/v1/login', {
+                login({
                     username: this.usernamePrefix + this.usernameSuffixs[this.usernameSuffix],
                     password: this.password,
                 }).then(res => {
@@ -71,8 +70,24 @@ export default {
                         window.localStorage.setItem('access_token', res.data.token);
                         Fetch.updateToken(res.data.token);
                         this.$router.replace('/');
-                    } else {
+                    } else if (res.code == 1) {
                         this.errorInfoList.push(res.msg);
+                    } else if (res.code == 2) {
+                        this.$router.push({
+                            name: 'verifyEmail',
+                            params: {
+                                email: res.data.email
+                            }
+                        });
+                    } else if (res.code == 3) {
+                        this.$router.push({
+                            name: 'patchInfo',
+                            params: {
+                                email: res.data.email
+                            }
+                        });
+                    } else {
+                        this.errorInfoList.push('未知错误');
                     }
                 });
             }

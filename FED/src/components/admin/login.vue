@@ -19,7 +19,7 @@
                             <input v-model="password" type="password" name="password" placeholder="Password">
                         </div>
                     </div>
-                    <div @click="submit" class="ui fluid large teal button">Login</div>
+                    <div @click="submit" class="ui fluid large teal button">登录</div>
                 </div>
                 <div :class="{'show-error': errorInfoList.length}" class="ui error message">
                     <ul class="list">
@@ -32,8 +32,7 @@
 </template>
 
 <script>
-import config from '../../config';
-import Fetch from '../../assets/tools/fetchWithToken';
+import { adminLogin } from '../../api';
 
 export default {
     name: 'admin-login',
@@ -51,25 +50,23 @@ export default {
                 this.errorInfoList.push('用户名或密码不能为空');
             } else {
                 this.errorInfoList = [];
-                Fetch.post(config.url + '/admin/login', {
+                adminLogin({
                     username: this.username,
                     password: this.password,
                 }).then(res => {
-                    if (!res.token) {
-                        this.errorInfoList.push('账号密码错误，请重新输入');
-                    } else {
+                    if (!res.code) {
                         // 后期询问是否保存本地
-                        window.localStorage.setItem('access_token', res.token);
-                        Fetch.updateToken(res.token);
-                        if (res.power == 1) {
+                        window.localStorage.setItem('access_token', res.data.token);
+                        Fetch.updateToken(res.data.token);
+                        if (res.data.power == 1) {
                             this.$router.push('/admin/super');
-                        } else if (res.power == 2) {
+                        } else if (res.data.power == 2) {
                             this.$router.push('/admin/campus');
-                        } else if (res.power == 3) {
+                        } else if (res.data.power == 3) {
                             this.$router.push('/admin/academy');
-                        } else {
-                            alert('未知错误');
                         }
+                    } else {
+                        this.errorInfoList.push(res.msg);
                     }
                 });
             }

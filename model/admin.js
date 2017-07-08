@@ -26,4 +26,38 @@ module.exports = {
             };
         }
     },
+    find (opts) {
+        if (opts.user.power == 1) {
+            return Admin.findAll({
+                where: {
+                    power: 2
+                }
+            }).then(v => {
+                return {
+                    code: 0,
+                    data: v
+                };
+            });
+        } else if (opts.user.power == 2) {
+            return Admin.findAll({
+                where: {
+                    power: 3,
+                    dependentId: opts.user.relationId
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'version']
+                }
+            }).then(v => {
+                return {
+                    code: 0,
+                    data: v
+                };
+            });
+        } else {
+            return {
+                code: 1,
+                msg: '未知错误，可能无权限'
+            };
+        }
+    },
 }
