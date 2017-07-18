@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const publicApi = Router({ prefix: '/api/v1' });
+const publicApi = Router({ prefix: '/api' });
 const privateApi = Router({ prefix: '/api' });
 
 const user = require('./controller/user');
@@ -8,24 +8,21 @@ const classInfo = require('./controller/classInfo');
 
 module.exports.publicApi = publicApi
     // 用户注册登录验证相关
-    .post('/login', user.login)
-    .post('/users', user.register)
-    .patch('/code', user.upsertCode)
-    .patch('/verify_email', user.verifyEmail)
-    .patch('/school_info', user.updateSchoolInfo)
-    .patch('/password', user.resetPwd)
+    .post('/v1/login', user.login)
+    .post('/v1/users', user.register)
+    .patch('/v1/code', user.upsertCode)
+    .patch('/v1/verify_email', user.verifyEmail)
+    .patch('/v1/school_info', user.updateSchoolInfo)
+    .patch('/v1/password', user.resetPwd)
     // 管理员
-    .post('/admin/login', admin.login)
+    .post('/v1/admin/login', admin.login)
     // 获取高校信息
-    .get('/campuses', classInfo.getCampuses)
-    .get('/academies', classInfo.getAcademies)
-    .get('/professions', classInfo.getProfessions)
-    .get('/classes', classInfo.getClasses)
+    .get('/admin/v1/campuses', classInfo.getCampuses)
+    .get('/admin/v1/academies', classInfo.getAcademies)
+    .get('/admin/v1/professions', classInfo.getProfessions)
+    .get('/admin/v1/classes', classInfo.getClasses)
 
 module.exports.privateApi = privateApi
-    // 登录获取基本信息
-    // .get('/v1/information', user.getInfo)
-    // .get('/admin/v1/information', user.getInfo)
     // 管理员
     .post('/admin/v1/campuses', classInfo.setCampus)
     .post('/admin/v1/academies', classInfo.setAcademy)

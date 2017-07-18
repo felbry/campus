@@ -24,7 +24,7 @@ module.exports = {
             }).then(v => v);
 
             await Admin.create({
-                username: opts.name,
+                username: tools.encryption(opts.name),
                 password: tools.encryption(config.defaultPwd),
                 power: 2,
                 relationId: result.id,

@@ -21,19 +21,19 @@ module.exports = {
         ctx.body = result;
     },
     async setCampus (ctx, next) {
-        let result = await Campus.insert(Object.assign(ctx.request.body, { user: ctx.state.user }));
+        let result = await Campus.insert(Object.assign(ctx.request.body.fields, { user: ctx.state.user }));
         ctx.body = result;
     },
     async setAcademy (ctx, next) {
-        let result = await Academy.insert(Object.assign(ctx.request.body, { user: ctx.state.user }));
+        let result = await Academy.insert(Object.assign(ctx.request.body.fields, { user: ctx.state.user }));
         ctx.body = result;
     },
     async setProfession (ctx, next) {
-        let result = await Profession.insert(Object.assign(ctx.request.body, { user: ctx.state.user }));
+        let result = await Profession.insert(Object.assign(ctx.request.body.fields, { user: ctx.state.user }));
         ctx.body = result;
     },
     async setClass (ctx, next) {
-        let result = await Clazz.insert(Object.assign(ctx.request.body, { user: ctx.state.user }));
+        let result = await Clazz.insert(Object.assign(ctx.request.body.fields, { user: ctx.state.user }));
         ctx.body = result;
     },
 }

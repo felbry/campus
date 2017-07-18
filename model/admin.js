@@ -1,7 +1,13 @@
+const jwt = require('jsonwebtoken');
+
 const Admin = require('../db/admin');
+
+const config = require('../config');
+const tools = require('../tools');
 
 module.exports = {
     async login (opts) {
+        console.log(opts);
         let results = await Admin.findAll({
             where: {
                 username: opts.username,
@@ -10,11 +16,12 @@ module.exports = {
             attributes: ['power', 'dependentId', 'relationId', 'relationName']
         }).then(v => v);
 
-        if (!results.length) {
+        if (results.length) {
+            let admin = JSON.parse(JSON.stringify(results[0]));
             return {
                 code: 0,
                 data: {
-                    token: jwt.sign(results[0], config.adminKey, {
+                    token: jwt.sign(admin, config.adminKey, {
                         expiresIn: '24h'
                     })
                 }
