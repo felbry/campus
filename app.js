@@ -37,13 +37,13 @@ app.use(jwt({
         return Promise.resolve(false);
     }
 }).unless({
-    path: [/^\/api\/admin/]
+    path: [/^\/admin\//]
 }));
 // admin validate
 app.use(jwt({
     secret: config.adminKey,
 }).unless({
-    path: [/^\/api\/v/]
+    path: [/^\/api\//]
 }));
 
 app.use(router.privateApi.routes());

@@ -1,6 +1,6 @@
 const Router = require('koa-router');
-const publicApi = Router({ prefix: '/api' });
-const privateApi = Router({ prefix: '/api' });
+const publicApi = Router();
+const privateApi = Router();
 
 const user = require('./controller/user');
 const admin = require('./controller/admin');
@@ -8,24 +8,24 @@ const classInfo = require('./controller/classInfo');
 
 module.exports.publicApi = publicApi
     // 用户注册登录验证相关
-    .post('/v1/login', user.login)
-    .post('/v1/users', user.register)
-    .patch('/v1/code', user.upsertCode)
-    .patch('/v1/verify_email', user.verifyEmail)
-    .patch('/v1/school_info', user.updateSchoolInfo)
-    .patch('/v1/password', user.resetPwd)
+    .post('/api/login', user.login)
+    .post('/api/users', user.register)
+    .patch('/api/code', user.upsertCode)
+    .patch('/api/verify_email', user.verifyEmail)
+    .patch('/api/school_info', user.updateSchoolInfo)
+    .patch('/api/password', user.resetPwd)
     // 管理员
-    .post('/v1/admin/login', admin.login)
+    .post('/admin/api/login', admin.login)
     // 获取高校信息
-    .get('/admin/v1/campuses', classInfo.getCampuses)
-    .get('/admin/v1/academies', classInfo.getAcademies)
-    .get('/admin/v1/professions', classInfo.getProfessions)
-    .get('/admin/v1/classes', classInfo.getClasses)
+    .get('/admin/api/campuses', classInfo.getCampuses)
+    .get('/admin/api/academies', classInfo.getAcademies)
+    .get('/admin/api/professions', classInfo.getProfessions)
+    .get('/admin/api/classes', classInfo.getClasses)
 
 module.exports.privateApi = privateApi
     // 管理员
-    .post('/admin/v1/campuses', classInfo.setCampus)
-    .post('/admin/v1/academies', classInfo.setAcademy)
-    .post('/admin/v1/professions', classInfo.setProfession)
-    .post('/admin/v1/classes', classInfo.setClass)
-    .get('/admin/v1/admins', admin.find)
+    .post('/admin/api/campuses', classInfo.setCampus)
+    .post('/admin/api/academies', classInfo.setAcademy)
+    .post('/admin/api/professions', classInfo.setProfession)
+    .post('/admin/api/classes', classInfo.setClass)
+    .get('/admin/api/admins', admin.find)

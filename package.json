@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "felbry",
   "scripts": {
-    "doc": "cd doc && aglio -i api.md --theme-template triple -o api.html"
+    "doc": "cd doc && aglio -i api.apib --theme-template triple -o api.html && start api.html"
   },
   "license": "MIT",
   "dependencies": {
