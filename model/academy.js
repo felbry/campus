@@ -1,4 +1,8 @@
 const Academy = require('../db/academy');
+const Admin = require('../db/admin');
+
+const config = require('../config');
+const tools = require('../tools');
 
 module.exports = {
     async insert (opts) {
@@ -17,7 +21,7 @@ module.exports = {
         if (!results.length) {
             let result = await Academy.create({
                 name: opts.name,
-                cid: opts.cid
+                cid: opts.user.relationId
             }).then(v => v);
 
             await Admin.create({
@@ -40,9 +44,9 @@ module.exports = {
             };
         }
     },
-    find () {
+    find (opts) {
         return Academy.findAll({
-            attributes: ['name'],
+            attributes: ['id', 'name'],
             where: {
                 cid: opts.cid
             }

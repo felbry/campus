@@ -44,7 +44,7 @@ module.exports = {
     },
     find () {
         return Campus.findAll({
-            attributes: ['name']
+            attributes: ['id', 'name']
         }).then(v => {
             return {
                 code: 0,

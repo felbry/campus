@@ -6,7 +6,7 @@ FORMAT: 1A
 
 ## 学校 [/admin/api/campuses]
 
-### 新建 [POST]
+### 新建一个高校 [POST]
 
 + name (string) - 学校名称
 
@@ -29,24 +29,156 @@ FORMAT: 1A
             }
         }
 
-+ Response 200
+- Response 200
 
         {
             "code": 1,
             "msg": "学校已存在"
         }
 
-+ Response 200
+- Response 200
 
         {
             "code": 2,
             "msg": "无权限"
         }
 
-### 获取 [GET]
+### 获取全部高校 [GET]
 
-- Parameters
+- Response 200
 
-    + id (string) - 高校id
+        {
+            "code": 0,
+            "data": [
+                {
+                    "id": 1,
+                    "name": "河南工业大学"
+                },
+                {
+                    "id": 2,
+                    "name": "郑州大学"
+                }
+            ]
+        }
 
-- Response 404
+## 学院 [/admin/api/academies]
+
+### 新建一个学院 [POST]
+
++ name (string) - 学院名称
+
+- Request
+
+        {
+            "name": '信息科学与工程'
+        }
+
+- Response 200
+
+        {
+            "code": 0,
+            "data": {
+                "version": 0,
+                "id": 3,
+                "name": "信息科学与工程",
+                "cid": 1,
+                "updatedAt": "2017-07-23T09:29:43.983Z",
+                "createdAt": "2017-07-23T09:29:43.983Z"
+            }
+        }
+
+- Response 200
+
+        {
+            "code": 1,
+            "msg": "学院已存在"
+        }
+
+- Response 200
+
+        {
+            "code": 2,
+            "msg": "无权限"
+        }
+
+### 获取学校下的全部学院 [GET]
+
++ aid (string) - 学校id
+
+- Response 200
+
+        {
+            "code": 0,
+            "data": [
+                {
+                    "id": 3,
+                    "name": "信息科学与工程"
+                },
+                {
+                    "id": 4,
+                    "name": "新闻与传播"
+                }
+            ]
+        }
+
+## 专业 [/admin/api/professions]
+
+### 新建一个专业 [POST]
+
++ name (string) - 专业名称
+
+- Request
+
+        {
+            "name": '软件工程'
+        }
+
+- Response 200
+
+        {
+            "code": 0,
+            "data": {
+                "version": 0,
+                "id": 1,
+                "name": "软件工程",
+                "aid": 3,
+                "updatedAt": "2017-07-23T10:08:44.277Z",
+                "createdAt": "2017-07-23T10:08:44.277Z"
+            }
+        }
+
+- Response 200
+
+        {
+            "code": 1,
+            "msg": "专业已存在"
+        }
+
+- Response 200
+
+        {
+            "code": 2,
+            "msg": "无权限"
+        }
+
+### 获取学院下的全部专业 [GET]
+
++ aid (string) - 学院id
+
+- Response 200
+
+        {
+            "code": 0,
+            "data": [
+                {
+                    "id": 1,
+                    "name": "软件工程"
+                },
+                {
+                    "id": 2,
+                    "name": "计算机科学与技术"
+                }
+            ]
+        }
+
+        

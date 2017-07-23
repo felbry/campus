@@ -35,9 +35,9 @@ module.exports = {
             };
         }
     },
-    find () {
+    find (opts) {
         return Clazz.findAll({
-            attributes: ['name'],
+            attributes: ['id', 'name'],
             where: {
                 pid: opts.pid,
                 grade: opts.grade

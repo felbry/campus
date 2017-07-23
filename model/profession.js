@@ -11,14 +11,14 @@ module.exports = {
         let results = await Profession.findAll({
             where: {
                 name: opts.name,
-                aid: opts.aid
+                aid: opts.user.relationId
             }
         }).then(v => v);
 
         if (!results.length) {
             return Profession.create({
                 name: opts.name,
-                aid: opts.aid
+                aid: opts.user.relationId
             }).then(v => {
                 return {
                     code: 0,
@@ -32,9 +32,9 @@ module.exports = {
             };
         }
     },
-    find () {
+    find (opts) {
         return Profession.findAll({
-            attributes: ['name'],
+            attributes: ['id', 'name'],
             where: {
                 aid: opts.aid
             }
