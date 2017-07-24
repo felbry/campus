@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "felbry",
   "scripts": {
-    "doc": "cd doc && aglio -i api.apib -o api.html && start api.html"
+    "doc": "cd doc && gulp"
   },
   "license": "MIT",
   "dependencies": {

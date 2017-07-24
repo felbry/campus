@@ -1,4 +1,20 @@
-FORMAT: 1A
+FORMAT: 1A9
+
+# Data Structures
+
+## Campus (object)
+
++ name: 河南工业大学 (string) - 学校名称
+
+## Academy (object)
+
++ name: 信息科学与工程 (string) - 学院名称
+
+## Profession (object)
+
++ name: 软件工程 (string) - 专业名称
+
+
 
 # Group 学校班级信息
 
@@ -8,13 +24,9 @@ FORMAT: 1A
 
 ### 新建一个高校 [POST]
 
-+ name (string) - 学校名称
-
 - Request
 
-        {
-            "name": "河南工业大学"
-        }
+    + Attributes (Campus)
 
 - Response 200
 
@@ -61,17 +73,13 @@ FORMAT: 1A
             ]
         }
 
-## 学院 [/admin/api/academies]
+## 学院 [/admin/api/academies{?cid}]
 
 ### 新建一个学院 [POST]
 
-+ name (string) - 学院名称
-
 - Request
 
-        {
-            "name": '信息科学与工程'
-        }
+    + Attributes (Academy)
 
 - Response 200
 
@@ -103,7 +111,8 @@ FORMAT: 1A
 
 ### 获取学校下的全部学院 [GET]
 
-+ aid (string) - 学校id
+- Parameters
+    + cid: 1 (number) - 高校id
 
 - Response 200
 
@@ -121,17 +130,13 @@ FORMAT: 1A
             ]
         }
 
-## 专业 [/admin/api/professions]
+## 专业 [/admin/api/professions{?aid}]
 
 ### 新建一个专业 [POST]
 
-+ name (string) - 专业名称
-
 - Request
 
-        {
-            "name": '软件工程'
-        }
+    + Attributes (Profession)
 
 - Response 200
 
@@ -163,7 +168,8 @@ FORMAT: 1A
 
 ### 获取学院下的全部专业 [GET]
 
-+ aid (string) - 学院id
+- Parameters
+    + aid: 1 (number) - 学院id
 
 - Response 200
 
